@@ -12,6 +12,7 @@ class Order extends Model
     use HasFactory;
 
     const STATUS_PENDING = 'pending';
+    const STATUS_APPROVED = 'approved';
 
     /**
      * The attributes that are mass assignable.

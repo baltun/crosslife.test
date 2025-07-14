@@ -16,15 +16,12 @@ class OrderCreateTest extends TestCase
     {
         $user = User::factory()->create();
         $product = Product::factory()->create(['stock_quantity' => 10]);
-
         $this->actingAs($user);
-
         $response = $this->postJson('/api/create_order', [
             'products' => [
                 ['id' => $product->id, 'quantity' => 5],
             ],
         ]);
-
         $response->assertStatus(201);
         $this->assertDatabaseHas('orders', ['customer_id' => $user->id]);
         $this->assertDatabaseHas('product_reservations', [
@@ -38,25 +35,22 @@ class OrderCreateTest extends TestCase
     {
         $user = User::factory()->create();
         $product = Product::factory()->create(['stock_quantity' => 3]);
-
-        // Создаём резервацию на всё количество
-        $order = Order::factory()->create(['customer_id' => $user->id]);
-        $product->reservations()->create([
+        $this->actingAs($user);
+        // Создаём заказ с резервацией на всё количество
+        $order = Order::factory()->create([
+            'customer_id' => $user->id,
+            'status' => Order::STATUS_PENDING,
+        ]);
+        $order->products()->attach($product->id, [
             'price' => $product->price,
             'stock_quantity' => 3,
-            'product_id' => $product->id,
             'customer_id' => $user->id,
-            'order_id' => $order->id,
         ]);
-
-        $this->actingAs($user);
-
         $response = $this->postJson('/api/create_order', [
             'products' => [
                 ['id' => $product->id, 'quantity' => 1],
             ],
         ]);
-
         $response->assertStatus(400);
         $response->assertJsonStructure(['error', 'details' => ['message', 'code']]);
         $this->assertEquals(4001, $response->json('details.code'));
@@ -66,13 +60,11 @@ class OrderCreateTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
-
         $response = $this->postJson('/api/create_order', [
             'products' => [
                 ['id' => 9999, 'quantity' => 1],
             ],
         ]);
-
         $response->assertStatus(404);
         $response->assertJsonStructure(['error', 'details' => ['message', 'code']]);
         $this->assertEquals(4041, $response->json('details.code'));

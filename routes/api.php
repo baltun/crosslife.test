@@ -9,3 +9,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/catalog', [\App\Http\Controllers\ProductsController::class, 'index']);
 Route::post('/create_order', [\App\Http\Controllers\OrdersController::class, 'store']);
+Route::post('/approve_order', [\App\Http\Controllers\OrdersController::class, 'approve']);
