@@ -10,6 +10,7 @@ class ProductReservation extends Model
 {
     use HasFactory;
 
+    protected $table = 'product_reservations';
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +21,7 @@ class ProductReservation extends Model
         'stock_quantity',
         'product_id',
         'customer_id',
+        'order_id',
     ];
 
     /**
@@ -43,6 +45,6 @@ class ProductReservation extends Model
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(User::class);
     }
 }

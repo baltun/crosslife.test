@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Customer;
@@ -25,7 +26,7 @@ class OrderFactory extends Factory
             'order_number' => fake()->uuid(),
             'status' => fake()->word(),
             'date' => fake()->dateTime(),
-            'customer_id' => Customer::factory(),
+            'customer_id' => User::factory(),
         ];
     }
 }

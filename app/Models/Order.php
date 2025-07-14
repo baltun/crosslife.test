@@ -41,15 +41,13 @@ class Order extends Model
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(User::class);
     }
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class)
-            ->using(ProductReservation::class)
-            ->as('product_reservation')
-            ->withPivot('id', 'price', 'stock_quantity', 'product_id', 'customer_id')
+        return $this->belongsToMany(Product::class, 'product_reservations', 'order_id', 'product_id')
+            ->withPivot('id', 'price', 'stock_quantity', 'customer_id')
             ->withTimestamps();
     }
 }

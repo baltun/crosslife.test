@@ -34,12 +34,8 @@ class Product extends Model
         ];
     }
 
-    public function orders(): BelongsToMany
+    public function reservations()
     {
-        return $this->belongsToMany(Order::class)
-            ->using(ProductReservation::class)
-            ->as('product_reservation')
-            ->withPivot('id', 'price', 'stock_quantity', 'product_id', 'customer_id')
-            ->withTimestamps();
+        return $this->hasMany(ProductReservation::class);
     }
 }
