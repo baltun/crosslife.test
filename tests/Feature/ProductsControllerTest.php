@@ -10,20 +10,12 @@ class ProductsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Test that the index endpoint returns a list of products
-     *
-     */
     public function test_index_returns_list_of_products()
     {
-        // Create some test products
         Product::factory()->count(3)->create();
 
-        // Make the API request
         $response = $this->getJson('/api/catalog');
 
-        dd($response->json());
-        // Assert the response
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'success',
@@ -42,7 +34,6 @@ class ProductsControllerTest extends TestCase
                 'success' => true
             ]);
 
-        // Verify the number of products returned
         $this->assertCount(3, $response->json('data'));
     }
 }
