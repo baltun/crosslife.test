@@ -1,0 +1,27 @@
+models:
+  #1.1. модель товара [наименование, описание, цена, кол-во на складе]
+  Product:
+    name: string
+    description: string
+    price: int
+    stock_quantity: int
+    relationships:
+      belongsToMany: Order:&ProductReservation
+  #1.2. модель покупателя [имя, email, кол-во денег/баллов] (можно взять готовые модели User и доработать)
+#  User:
+#    balance: int
+  #1.3. модель заказа [номер, статус, дата, ссылка на покупателя, резерв товаров с фиксацией цен]
+  ProductReservation:
+    price: int
+    stock_quantity: int
+    relationships:
+      belongsTo: Product, Customer
+  Order:
+      order_number: string
+      status: string
+      date: datetime
+      relationships:
+        belongsTo: Customer
+        belongsToMany: Product:&ProductReservation
+controllers:
+  # ...

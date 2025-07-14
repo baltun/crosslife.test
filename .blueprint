@@ -1,0 +1,18 @@
+created:
+    - database/factories/ProductFactory.php
+    - database/factories/UserFactory.php
+    - database/factories/ProductReservationFactory.php
+    - database/factories/OrderFactory.php
+    - database/migrations/2025_07_13_102026_create_products_table.php
+    - database/migrations/2025_07_13_102027_create_users_table.php
+    - database/migrations/2025_07_13_102028_create_product_reservations_table.php
+    - database/migrations/2025_07_13_102029_create_orders_table.php
+    - app/Models/Product.php
+    - app/Models/User.php
+    - app/Models/ProductReservation.php
+    - app/Models/Order.php
+models:
+    User: { balance: int }
+    Product: { name: string, description: string, price: int, stock_quantity: int, relationships: { belongsToMany: 'Order:&ProductReservation' } }
+    ProductReservation: { price: int, stock_quantity: int, relationships: { belongsTo: 'Product, Customer' } }
+    Order: { order_number: string, status: string, date: datetime, relationships: { belongsTo: Customer, belongsToMany: 'Product:&ProductReservation' } }
