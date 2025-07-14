@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('stock_quantity');
             $table->foreignId('product_id');
             $table->foreignId('customer_id');
+            $table->foreignId('order_id');
             $table->timestamps();
         });
     }
